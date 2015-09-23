@@ -27,18 +27,18 @@ source ./librunscript.sh
 config="nemo lim3 xios:detached"
 
 # Experiment name (exactly 4 letters!)
-exp_name=NO01
+exp_name=ei5a
 
 # Simulation start and end date. Use any (reasonable) syntax you want.
-run_start_date="1979-01-01"
+run_start_date="2015-01-01"
 #run_end_date="${run_start_date} + 10 years"
-run_end_date="2015-01-01"
+run_end_date="2015-06-30"
 
 # Set $force_run_from_scratch to 'true' if you want to force this run to start
 # from scratch, possibly ignoring any restart files present in the run
 # directory. Leave set to 'false' otherwise.
 # NOTE: If set to 'true' the run directory $run_dir is cleaned!
-force_run_from_scratch=false
+force_run_from_scratch=true
 
 # Resolution
 nem_grid=ORCA025L75
@@ -77,8 +77,8 @@ configure
 nem_version=3_6_STABLE
 lim_version=3
 
-nem_time_step_sec=540
-lim_time_step_sec=2700
+nem_time_step_sec=720
+lim_time_step_sec=3600
 
 nem_restart_offset=0
 
@@ -118,7 +118,7 @@ case ${nem_forcing_set} in
             nem_forcing_weight_precip=weight_bilin_192x94-ORCA${nem_res_hor}.nc
             nem_forcing_weight_snow=weight_bilin_192x94-ORCA${nem_res_hor}.nc
             ;;
-    ERAI*) nem_forcing_dir=/lustre/tmp/uotilap/CMCC/forcing
+	ERAI*) nem_forcing_dir=/lustre/tmp/gierisch/forcing/downloadselbst
             ;;
          *) error "Unsupported NEMO forcing set: ${nem_forcing_set}"
             ;;
