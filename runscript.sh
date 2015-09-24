@@ -30,7 +30,7 @@ config="nemo lim3 xios:detached"
 exp_name=ei5a
 
 # Simulation start and end date. Use any (reasonable) syntax you want.
-run_start_date="2015-01-01"
+run_start_date="2002-01-04"
 #run_end_date="${run_start_date} + 10 years"
 run_end_date="2015-06-30"
 
@@ -38,7 +38,7 @@ run_end_date="2015-06-30"
 # from scratch, possibly ignoring any restart files present in the run
 # directory. Leave set to 'false' otherwise.
 # NOTE: If set to 'true' the run directory $run_dir is cleaned!
-force_run_from_scratch=true
+force_run_from_scratch=false
 
 # Resolution
 nem_grid=ORCA025L75
