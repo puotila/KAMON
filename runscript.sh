@@ -421,10 +421,13 @@ do
         for f in oce ice
         do
             frst=${exp_name}_${ns}_restart_${f}.nc
+	    frst0000=${exp_name}_${ns}_restart_${f}_0000.nc
             if [ -f $frst ]
             then
                 mv ${exp_name}_${ns}_restart_${f}.nc ${outdir}
-            else
+	    fi
+	    if [ -f $frst0000 ]
+	    then
                 mv ${exp_name}_${ns}_restart_${f}_????.nc ${outdir}
             fi
         done
