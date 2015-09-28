@@ -55,6 +55,10 @@ cat << EOF
           <field field_ref="iceconc"          name="siconc"  />
           <field field_ref="uice_ipa"         name="sivelu" />
           <field field_ref="vice_ipa"         name="sivelv" />
+	  <field field_ref="snowthic_cea"     name="snthic"     long_name="surface_snow_thickness"   />
+          <field field_ref="iceconc_cat"     name="siconcat" />
+          <field field_ref="icethic_cat"     name="sithicat" />
+          <field field_ref="snowthic_cat"    name="snthicat" />
 	</file>
 
 	<file id="file10" name_suffix="_grid_U" description="ocean U grid variables" >
@@ -80,15 +84,6 @@ cat << EOF
 	  <field field_ref="sst"          name="tos"      long_name="sea_surface_temperature"                       />
 	  <field field_ref="sss"          name="sos"      long_name="sea_surface_salinity"                          />
 	  <field field_ref="ssh"          name="zos"      long_name="sea_surface_height_above_geoid"                />
-	  <field field_ref="sst"          name="tosstd"   long_name="sea_surface_temperature_standard_deviation"         operation="instant" freq_op="5d" > sqrt( @sst2 - @sst * @sst ) </field>
-	  <field field_ref="ssh"          name="zosstd"   long_name="sea_surface_height_above_geoid_standard_deviation"  operation="instant" freq_op="5d" > sqrt( @ssh2 - @ssh * @ssh ) </field>
-	  <field field_ref="sst"          name="sstdcy"   long_name="amplitude of sst diurnal cycle" operation="average" freq_op="1d" > @sstmax - @sstmin </field>
-	  <field field_ref="mldkz5"       />
-	  <field field_ref="mldr10_1"     />
-	  <field field_ref="mldr10_1"     name="mldr10_1dcy"  long_name="amplitude of mldr10_1 diurnal cycle" operation="average" freq_op="1d" > @mldr10_1max - @mldr10_1min </field>
-	  <field field_ref="sbt"                          />
-	  <field field_ref="heatc"        name="heatc"    long_name="Heat content vertically integrated"            />
-	  <field field_ref="saltc"        name="saltc"    long_name="Salt content vertically integrated"            />
 	</file>
 
 	<file id="file2" name_suffix="_SBC" description="surface fluxes variables" > <!-- time step automaticaly defined based on nn_fsbc -->
@@ -101,7 +96,7 @@ cat << EOF
 	  <field field_ref="qtr_ice"      name="qtr_ice"  long_name="shortwave flux transmitted thru the ice"           />
 	  <field field_ref="qt_ice"       name="qt_ice"   long_name="downward total flux at ice surface"           />
 	  <field field_ref="saltflx"      name="sfx"     />
-      <field field_ref="precip"       name="precip"  />
+          <field field_ref="precip"       name="precip"  />
 	  <!-- ice and snow -->
 	  <field field_ref="snowpre" />
 	  <field field_ref="utau_ice"     name="utau_ice" />
@@ -110,55 +105,30 @@ cat << EOF
 
 	<file id="file3" name_suffix="_grid_U" description="ocean U grid variables" >
 	  <field field_ref="ssu"          name="uos"     long_name="sea_surface_x_velocity"    />
-	  <field field_ref="uoce"         name="uo"      long_name="sea_water_x_velocity" operation="instant" freq_op="5d" > @uoce_e3u / @e3u </field>
 	  <field field_ref="utau"         name="tauuo"   long_name="surface_downward_x_stress" />
           <!-- available with key_diaar5 -->
-	  <field field_ref="u_masstr"     name="vozomatr" />
-	  <field field_ref="u_heattr"     name="sozohetr" />
-      <field field_ref="u_salttr"     name="sozosatr" />
 	</file>
 	
 	<file id="file4" name_suffix="_grid_V" description="ocean V grid variables" >
 	  <field field_ref="ssv"          name="vos"     long_name="sea_surface_y_velocity"    />
-	  <field field_ref="voce"         name="vo"      long_name="sea_water_y_velocity" operation="instant" freq_op="5d" > @voce_e3v / @e3v </field>
 	  <field field_ref="vtau"         name="tauvo"   long_name="surface_downward_y_stress" />
           <!-- available with key_diaar5 -->
-	  <field field_ref="v_masstr"     name="vomematr" />
-	  <field field_ref="v_heattr"     name="somehetr" />
-      <field field_ref="v_salttr"     name="somesatr" />
 	</file>
 	
-	<file id="file5" name_suffix="_grid_W" description="ocean W grid variables" >
-	  <field field_ref="w_masstr"     name="vovematr" />
-	</file>
-
 	<file id="file6" name_suffix="_icemod" description="ice variables" enabled=".true." >
-	  <field field_ref="snowthic_cea"     name="snthic"     long_name="surface_snow_thickness"   />
 	  <field field_ref="icethic_cea"      name="sithic"     long_name="sea_ice_thickness"        />
           <field field_ref="icevolu"          name="sivolu" />
           <field field_ref="snowvol"          name="snvolu" />
           <field field_ref="iceconc"          name="siconc"  />
 
-          <field field_ref="vfxbog"          name="vfxbog" />
-          <field field_ref="vfxdyn"          name="vfxdyn" />
-          <field field_ref="vfxopw"          name="vfxopw" />
-          <field field_ref="vfxsni"          name="vfxsni" />
-          <field field_ref="vfxsum"          name="vfxsum" />
-          <field field_ref="vfxbom"          name="vfxbom" />
-          <field field_ref="vfxres"          name="vfxres" />
           <field field_ref="vfxice"          name="vfxice" />
           <field field_ref="vfxsnw"          name="vfxsnw" />
-          <field field_ref="vfxsub"          name="vfxsub" />
           <field field_ref="vfxspr"          name="vfxspr" />
-
-          <field field_ref="sfx"             name="sfx"    />
 
 	  <!-- diags -->
           <field field_ref="micesalt"        name="sisali" />
           <field field_ref="micet"           name="sitemp" />
           <field field_ref="icest"           name="sistem" />
-          <field field_ref="icehc"           name="siheco" />
-          <field field_ref="isnowhc"         name="snheco" />
           <field field_ref="miceage"         name="siages" />
 
           <field field_ref="uice_ipa"        name="sivelu" />
@@ -168,7 +138,6 @@ cat << EOF
           <field field_ref="icestr"          name="sistre" />
 
           <field field_ref="ibrinv"          name="sibrin" />
-          <field field_ref="icecolf"         name="sicolf" />
 
           <field field_ref="iceage_cat"      name="siagecat" />
           <field field_ref="iceconc_cat"     name="siconcat" />
