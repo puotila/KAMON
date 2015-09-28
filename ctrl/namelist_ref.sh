@@ -274,7 +274,7 @@ cat << EOF
                            !  4 = ISF fwf specified
                            !  option 1 and 4 need ln_isfcav = .true. (domzgr)
    ln_ssr      = .true.    !  Sea Surface Restoring on T and/or S       (T => fill namsbc_ssr)
-   nn_fwb      = 0         !  FreshWater Budget: =0 unchecked
+   nn_fwb      = 1         !  FreshWater Budget: =0 unchecked
                            !     =1 global mean of e-p-r set to zero at each time step
                            !     =2 annual global mean of e-p-r set to zero
    ln_wave = .false.       !  Activate coupling with wave (either Stokes Drift or Drag coefficient, or both)  (T => fill namsbc_wave)
@@ -331,8 +331,8 @@ cat << EOF
 !-----------------------------------------------------------------------
 !          !  file name            ! frequency (hours) ! variable ! time interp. !  clim  ! 'yearly'/ ! weights                      ! rotation ! land/sea mask !
 !          !                       !  (if <0  months)  !   name   !   (logical)  !  (T/F) ! 'monthly' ! filename                     ! pairing  ! filename      !
-   sn_wndi     = 'u10m'             ,       3           , 'u10m'     ,    .true.      , .false.  , 'yearly'  , ''  , ''
-   sn_wndj     = 'v10m'             ,       3           , 'v10m'     ,    .true.      , .false.  , 'yearly'  , ''  , ''
+   sn_wndi     = 'u10m'             ,       3           , 'u10m'     ,    .true.      , .false.  , 'yearly'  , ''  , 'Uwnd'
+   sn_wndj     = 'v10m'             ,       3           , 'v10m'     ,    .true.      , .false.  , 'yearly'  , ''  , 'Vwnd'
    sn_qsr      = 'swrd'             ,       24          , 'swrd'     ,    .false.     , .false.  , 'yearly'  , ''  , ''
    sn_qlw      = 'lwrad'            ,       24          , 'lwrad'    ,    .true.      , .false.  , 'yearly'  , ''  , ''
    sn_tair     = 't2m'              ,       3           , 't2m'      ,    .true.      , .false.  , 'yearly'  , ''  , ''
