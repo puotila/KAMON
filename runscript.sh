@@ -401,7 +401,7 @@ do
     outdir="output/nemo/$(printf %03d $((leg_number)))"
     mkdir -p ${outdir}
 
-    for v in grid_U grid_V grid_W grid_T icemod SBC
+    for v in grid_U grid_V grid_W grid_T icemod SBC scalar
     do
         for f in ${exp_name}_??_????????_????????_${v}.nc
         do
