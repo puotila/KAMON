@@ -27,7 +27,7 @@ source ./librunscript.sh
 config="nemo lim3 xios:detached"
 
 # Experiment name (exactly 4 letters!)
-exp_name=ei5a
+exp_name=ei5b
 
 # Simulation start and end date. Use any (reasonable) syntax you want.
 #run_start_date="2002-01-04"
