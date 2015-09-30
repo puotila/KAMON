@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #PBS -N NEMO36
 #PBS -q workq
-#PBS -l mppwidth=170
+#PBS -l mppwidth=160
 #PBS -l mppnppn=20
 #PBS -l mppdepth=1
 #PBS -l walltime=48:00:00
@@ -30,8 +30,8 @@ config="nemo lim3 xios:detached"
 exp_name=ei5b
 
 # Simulation start and end date. Use any (reasonable) syntax you want.
-#run_start_date="2002-01-04"
-run_start_date="2015-01-01"
+run_start_date="2002-01-04"
+#run_start_date="2015-01-01"
 #run_end_date="${run_start_date} + 10 years"
 run_end_date="2015-06-30"
 
@@ -39,7 +39,7 @@ run_end_date="2015-06-30"
 # from scratch, possibly ignoring any restart files present in the run
 # directory. Leave set to 'false' otherwise.
 # NOTE: If set to 'true' the run directory $run_dir is cleaned!
-force_run_from_scratch=true
+force_run_from_scratch=false
 
 # Resolution
 nem_grid=ORCA025L75
@@ -91,7 +91,7 @@ has_config pisces \
 
 nem_exe_file=${nemo_src_dir}/nemo_v${nem_version}/NEMOGCM/CONFIG/${nem_config_name}/BLD/bin/nemo.exe
 
-nem_numproc=150
+nem_numproc=140
 
 # -----------------------------------------------------------------------------
 # *** XIOS configuration
