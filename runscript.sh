@@ -33,7 +33,7 @@ exp_name=ei5b
 run_start_date="2002-01-04"
 #run_start_date="2015-01-01"
 #run_end_date="${run_start_date} + 10 years"
-run_end_date="2015-06-30"
+run_end_date="2015-07-01 00:00:00"
 
 # Set $force_run_from_scratch to 'true' if you want to force this run to start
 # from scratch, possibly ignoring any restart files present in the run
