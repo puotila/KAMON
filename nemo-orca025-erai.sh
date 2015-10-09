@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #PBS -N NEMO36
 #PBS -q workq
-#PBS -l mppwidth=170
+#PBS -l mppwidth=180
 #PBS -l mppnppn=20
 #PBS -l mppdepth=1
 #PBS -l walltime=48:00:00
