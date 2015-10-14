@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #PBS -N NEMO36
 #PBS -q workq
-#PBS -l mppwidth=180
+#PBS -l mppwidth=160
 #PBS -l mppnppn=20
 #PBS -l mppdepth=1
 #PBS -l walltime=48:00:00
@@ -27,12 +27,13 @@ source ./librunscript.sh
 config="nemo lim3 xios:detached"
 
 # Experiment name (exactly 4 letters!)
-exp_name=NO01
+exp_name=ei5b
 
 # Simulation start and end date. Use any (reasonable) syntax you want.
-run_start_date="1979-01-01"
+run_start_date="2002-01-04"
+#run_start_date="2015-01-01"
 #run_end_date="${run_start_date} + 10 years"
-run_end_date="2015-01-01"
+run_end_date="2015-07-01 00:00:00"
 
 # Set $force_run_from_scratch to 'true' if you want to force this run to start
 # from scratch, possibly ignoring any restart files present in the run
@@ -77,8 +78,8 @@ configure
 nem_version=3_6_STABLE
 lim_version=3
 
-nem_time_step_sec=540
-lim_time_step_sec=2700
+nem_time_step_sec=720
+lim_time_step_sec=3600
 
 nem_restart_offset=0
 
@@ -90,7 +91,7 @@ has_config pisces \
 
 nem_exe_file=${nemo_src_dir}/nemo_v${nem_version}/NEMOGCM/CONFIG/${nem_config_name}/BLD/bin/nemo.exe
 
-nem_numproc=150
+nem_numproc=140
 
 # -----------------------------------------------------------------------------
 # *** XIOS configuration
@@ -118,7 +119,7 @@ case ${nem_forcing_set} in
             nem_forcing_weight_precip=weight_bilin_192x94-ORCA${nem_res_hor}.nc
             nem_forcing_weight_snow=weight_bilin_192x94-ORCA${nem_res_hor}.nc
             ;;
-    ERAI*) nem_forcing_dir=/lustre/tmp/uotilap/CMCC/forcing
+	ERAI*) nem_forcing_dir=/lustre/tmp/gierisch/forcing/downloadselbst
             ;;
          *) error "Unsupported NEMO forcing set: ${nem_forcing_set}"
             ;;
@@ -401,7 +402,7 @@ do
     outdir="output/nemo/$(printf %03d $((leg_number)))"
     mkdir -p ${outdir}
 
-    for v in grid_U grid_V grid_W grid_T icemod SBC
+    for v in grid_U grid_V grid_W grid_T icemod SBC scalar
     do
         for f in ${exp_name}_??_????????_????????_${v}.nc
         do
@@ -421,10 +422,13 @@ do
         for f in oce ice
         do
             frst=${exp_name}_${ns}_restart_${f}.nc
+	    frst0000=${exp_name}_${ns}_restart_${f}_0000.nc
             if [ -f $frst ]
             then
                 mv ${exp_name}_${ns}_restart_${f}.nc ${outdir}
-            else
+	    fi
+	    if [ -f $frst0000 ]
+	    then
                 mv ${exp_name}_${ns}_restart_${f}_????.nc ${outdir}
             fi
         done
