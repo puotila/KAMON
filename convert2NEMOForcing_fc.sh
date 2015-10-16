@@ -2,12 +2,25 @@
 # Download first: done manually from MARS catalogue
 # then this script converts to ORCA025 grid forcing files for NEMO
 
-DATE=20150601g20150630
-DATEOUT=y2015m06
-#NYR=$(( $YR+1 ))
+
+YEAR=2015
+MONTH=06
+DATADIR=from_ecaccess
+PRFX=agi_
+
+# end of user changable part
+################################################
+
+MONTHp1=`printf %02d $(($MONTH + 1 ))`
+DATE=${YEAR}${MONTH}01-${YEAR}${MONTHp1}01
+DATEOUT=y${YEAR}m${MONTH}
+echo $DATE $DATEOUT
+
 export SKIP_SAME_TIME=1
+
 # use cdo to mergetime
 CDO="cdo -O -t ecmwf -f nc"
+
 # We only need one grid as T and U V grid forcing variables are all in T grid
 ORCA025GRDFILE=/lustre/tmp/gierisch/forcing/ORCA025_grid.nc
 #AGI ORCA025GRDFILE=/lustre/tmp/uotilap/ORCA025LIM3Byoung/ORCA025-N401_1d_20050501_20050531_icemod.nc
@@ -15,12 +28,12 @@ ORCA025GRDFILE=/lustre/tmp/gierisch/forcing/ORCA025_grid.nc
 
 # 3h variables
 #${CDO} mergetime ${DATE}_00.grb ${DATE}_03.grb ${DATE}_3h.nc
-${CDO} cat ${DATE}_03.grb ${DATE}_3h.nc
+${CDO} cat ${DATADIR}/${PRFX}${DATE}_03.grb ${DATE}_3h.nc
 for VAR in T2M D2M U10M V10M SP
 do
-  ${CDO} selname,${VAR} ${DATE}_3h.nc  ${VAR}_fc_${DATE}.nc
-  #${CDO} seldate,${YR}-01-01T03:00:00,${NYR}-01-01T00:00:00 ${VAR}_erai_${YR}.3h.nc ${VAR}_erai_${YR}.nc
-  #rm ${VAR}_erai_${YR}.3h.nc
+  ${CDO} selname,${VAR} ${DATE}_3h.nc  ${VAR}_fc_${DATE}_tmp.nc
+  ${CDO} seldate,${YEAR}-${MONTH}-01T00:00:00,${YEAR}-${MONTHp1}-01T00:00:00 ${VAR}_fc_${DATE}_tmp.nc ${VAR}_fc_${DATE}.nc 
+  rm ${VAR}_fc_${DATE}_tmp.nc
 done
 
 
@@ -29,18 +42,19 @@ done
 # but it is enough to use 12h forecasts only for daily means.
 for VAR in SSRD STRD
 do
-  ${CDO} selname,${VAR} ${DATE}_24.grb  ${VAR}_fc_${DATE}_org.nc
-  ${CDO} divc,86400 -shifttime,-12hour ${VAR}_fc_${DATE}_org.nc ${VAR}_fc_${DATE}.nc
-  #${CDO} seldate,${YR}-01-01T00:00:00,${NYR}-01-01T00:00:00 ${VAR}_erai_${YR}.1d.nc ${VAR}_erai_${YR}.nc
-  #rm ${VAR}_erai_${YR}.1d.nc
+  ${CDO} selname,${VAR} ${DATADIR}/${PRFX}${DATE}_24.grb  ${VAR}_fc_${DATE}_org.nc
+  ${CDO} divc,86400 -shifttime,-12hour ${VAR}_fc_${DATE}_org.nc ${VAR}_fc_${DATE}_tmp.nc
+  ${CDO} seldate,${YEAR}-${MONTH}-01T00:00:00,${YEAR}-${MONTHp1}-01T12:00:00 ${VAR}_fc_${DATE}_tmp.nc ${VAR}_fc_${DATE}.nc
+  rm ${VAR}_fc_${DATE}_tmp.nc
 done
+
 # precip converted from m -> kg/(m**2 s) and  are accumulated over 12h so need to divide by 12*3600/1000
 for VAR in TP SF
 do
-  ${CDO} selname,${VAR} ${DATE}_24.grb  ${VAR}_fc_${DATE}_org.nc
-  ${CDO} divc,86.4 -shifttime,-12hour ${VAR}_fc_${DATE}_org.nc ${VAR}_fc_${DATE}.nc
-  #${CDO} seldate,${YR}-01-01T00:00:00,${NYR}-01-01T00:00:00 ${VAR}_erai_${YR}.1d.nc ${VAR}_erai_${YR}.nc
-  #rm ${VAR}_erai_${YR}.1d.nc
+  ${CDO} selname,${VAR} ${DATADIR}/${PRFX}${DATE}_24.grb  ${VAR}_fc_${DATE}_org.nc
+  ${CDO} divc,86.4 -shifttime,-12hour ${VAR}_fc_${DATE}_org.nc ${VAR}_fc_${DATE}_tmp.nc
+  ${CDO} seldate,${YEAR}-${MONTH}-01T00:00:00,${YEAR}-${MONTHp1}-01T12:00:00 ${VAR}_fc_${DATE}_tmp.nc ${VAR}_fc_${DATE}.nc
+  rm ${VAR}_fc_${DATE}_tmp.nc
 done
 
 # t2m, d2m, sp
