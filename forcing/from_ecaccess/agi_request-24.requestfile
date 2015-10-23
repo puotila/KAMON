@@ -1,0 +1,14 @@
+retrieve,
+  type=fc,
+  stream=oper,
+  expver=1,
+  class=od,
+  date=20150601/to/20150701,
+  time=00,
+  step=24,
+  levtype=sfc,
+  param=144.128/169.128/175.128/228.128,
+  grid=0.75/0.75,
+  domain=g,
+  target="agi_20150601-20150701_24.grb"
+
