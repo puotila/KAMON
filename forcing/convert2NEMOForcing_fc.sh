@@ -23,6 +23,7 @@ CDO="cdo -O -t ecmwf -f nc"
 
 # We only need one grid as T and U V grid forcing variables are all in T grid
 ORCA025GRDFILE=/lustre/tmp/gierisch/forcing/ORCA025_grid.nc
+ORCA025WEIGHTFILE=/lustre/tmp/gierisch/forcing/ORCA025weights.nc
 #AGI ORCA025GRDFILE=/lustre/tmp/uotilap/ORCA025LIM3Byoung/ORCA025-N401_1d_20050501_20050531_icemod.nc
 #cdo genbil,${ORCA025GRDFILE} 2t_erai_2014.nc /lustre/tmp/gierisch/forcing/ORCA025weights.nc
 
@@ -59,28 +60,28 @@ done
 
 # t2m, d2m, sp
 # change units from K to C
-${CDO} remap,${ORCA025GRDFILE},/lustre/tmp/gierisch/forcing/ORCA025weights.nc -chname,T2M,t2m T2M_fc_${DATE}.nc t2m_${DATEOUT}.nc
-#${CDO} remap,${ORCA025GRDFILE},/lustre/tmp/gierisch/forcing/ORCA025weights.nc -chname,D2M,d2m 2d_erai_${YR}.nc d2m_ERAINT-ORCA025_${YR}.nc
-#${CDO} remap,${ORCA025GRDFILE},/lustre/tmp/gierisch/forcing/ORCA025weights.nc -chname,SP,sp sp_erai_${YR}.nc sp_ERAINT-ORCA025_${YR}.nc
+${CDO} remap,${ORCA025GRDFILE},${ORCA025WEIGHTFILE} -chname,T2M,t2m T2M_fc_${DATE}.nc t2m_${DATEOUT}.nc
+#${CDO} remap,${ORCA025GRDFILE},${ORCA025WEIGHTFILE} -chname,D2M,d2m 2d_erai_${YR}.nc d2m_ERAINT-ORCA025_${YR}.nc
+#${CDO} remap,${ORCA025GRDFILE},${ORCA025WEIGHTFILE} -chname,SP,sp sp_erai_${YR}.nc sp_ERAINT-ORCA025_${YR}.nc
 python d2m2spechum_fc.py ${DATE}
-${CDO} remap,${ORCA025GRDFILE},/lustre/tmp/gierisch/forcing/ORCA025weights.nc q2m_fc_${DATE}.nc q2m_${DATEOUT}.nc
+${CDO} remap,${ORCA025GRDFILE},${ORCA025WEIGHTFILE} q2m_fc_${DATE}.nc q2m_${DATEOUT}.nc
 # lwrad
-${CDO} remap,${ORCA025GRDFILE},/lustre/tmp/gierisch/forcing/ORCA025weights.nc -chname,STRD,lwrad STRD_fc_${DATE}.nc lwrad_${DATEOUT}.nc
+${CDO} remap,${ORCA025GRDFILE},${ORCA025WEIGHTFILE} -chname,STRD,lwrad STRD_fc_${DATE}.nc lwrad_${DATEOUT}.nc
 
 # swrd
-${CDO} remap,${ORCA025GRDFILE},/lustre/tmp/gierisch/forcing/ORCA025weights.nc -chname,SSRD,swrd SSRD_fc_${DATE}.nc swrd_${DATEOUT}.nc
+${CDO} remap,${ORCA025GRDFILE},${ORCA025WEIGHTFILE} -chname,SSRD,swrd SSRD_fc_${DATE}.nc swrd_${DATEOUT}.nc
 
 # snow
-${CDO} remap,${ORCA025GRDFILE},/lustre/tmp/gierisch/forcing/ORCA025weights.nc -chname,SF,snow SF_fc_${DATE}.nc snow_${DATEOUT}.nc
+${CDO} remap,${ORCA025GRDFILE},${ORCA025WEIGHTFILE} -chname,SF,snow SF_fc_${DATE}.nc snow_${DATEOUT}.nc
 
 # precip, assume precip contains snow but liquid is still tp, not tp-sf
 #${CDO} sub tp_erai_${YR}.nc sf_erai_${YR}.nc prcmsf_erai_${YR}.nc
-${CDO} remap,${ORCA025GRDFILE},/lustre/tmp/gierisch/forcing/ORCA025weights.nc -chname,TP,precip TP_fc_${DATE}.nc precip_${DATEOUT}.nc
+${CDO} remap,${ORCA025GRDFILE},${ORCA025WEIGHTFILE} -chname,TP,precip TP_fc_${DATE}.nc precip_${DATEOUT}.nc
 
 # u10m v10m
 # rotation?
-${CDO} remap,${ORCA025GRDFILE},/lustre/tmp/gierisch/forcing/ORCA025weights.nc -chname,U10M,u10m U10M_fc_${DATE}.nc u10m_${DATEOUT}.nc
-${CDO} remap,${ORCA025GRDFILE},/lustre/tmp/gierisch/forcing/ORCA025weights.nc -chname,V10M,v10m V10M_fc_${DATE}.nc v10m_${DATEOUT}.nc
+${CDO} remap,${ORCA025GRDFILE},${ORCA025WEIGHTFILE} -chname,U10M,u10m U10M_fc_${DATE}.nc u10m_${DATEOUT}.nc
+${CDO} remap,${ORCA025GRDFILE},${ORCA025WEIGHTFILE} -chname,V10M,v10m V10M_fc_${DATE}.nc v10m_${DATEOUT}.nc
 
 # clean up
 for VAR in TP SF SSRD STRD T2M D2M U10M V10M SP
