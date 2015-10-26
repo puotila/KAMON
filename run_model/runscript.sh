@@ -119,7 +119,7 @@ case ${nem_forcing_set} in
             nem_forcing_weight_precip=weight_bilin_192x94-ORCA${nem_res_hor}.nc
             nem_forcing_weight_snow=weight_bilin_192x94-ORCA${nem_res_hor}.nc
             ;;
-	ERAI*) nem_forcing_dir=/lustre/tmp/gierisch/forcing/downloadselbst
+    ERAI*) nem_forcing_dir=/lustre/tmp/gierisch/forcing/downloadselbst
             ;;
          *) error "Unsupported NEMO forcing set: ${nem_forcing_set}"
             ;;
@@ -422,13 +422,13 @@ do
         for f in oce ice
         do
             frst=${exp_name}_${ns}_restart_${f}.nc
-	        frst0000=${exp_name}_${ns}_restart_${f}_0000.nc
+            frst0000=${exp_name}_${ns}_restart_${f}_0000.nc
             if [ -f $frst ]
             then
                 mv ${exp_name}_${ns}_restart_${f}.nc ${outdir}
-	        fi
-	        if [ -f $frst0000 ]
-	        then
+            fi
+            if [ -f $frst0000 ]
+            then
                 mv ${exp_name}_${ns}_restart_${f}_????.nc ${outdir}
             fi
         done
