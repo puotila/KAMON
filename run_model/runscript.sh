@@ -426,9 +426,9 @@ do
             if [ -f $frst ]
             then
                 mv ${exp_name}_${ns}_restart_${f}.nc ${outdir}
-                fi
-                if [ -f $frst0000 ]
-                then
+            fi
+            if [ -f $frst0000 ]
+            then
                 mv ${exp_name}_${ns}_restart_${f}_????.nc ${outdir}
             fi
         done
